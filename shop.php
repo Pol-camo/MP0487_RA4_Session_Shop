@@ -32,7 +32,7 @@ if (isset($_POST['product'])) {
 
     if (
         isset($_SESSION['stock'][$product]) &&
-        $_SESSION['stock'][$product] >= 0 
+        $_SESSION['stock'][$product] > 0 
     ) {
         // Increase quantity in cart
         if (!isset($_SESSION['cart'][$product])) {
@@ -43,13 +43,15 @@ if (isset($_POST['product'])) {
 
         // Decrease stock
         $_SESSION['stock'][$product]--;
+        header("Location: shop.php");
+        exit;
     }
 }
 
 // Calculate total price
 $totalPrice = 0;
 foreach ($_SESSION['cart'] as $item => $qty) {
-    $totalPrice = $products[$item]['price'] * $qty; 
+    $totalPrice += $products[$item]['price'] * $qty; 
 }
 ?>
 
@@ -294,7 +296,7 @@ foreach ($_SESSION['cart'] as $item => $qty) {
                 <span style="background: rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9em;">👤 <?php echo htmlspecialchars($_SESSION['user']); ?></span>
                 <div class="nav-links">
                     <a href="home.php">🏠 Home</a>
-                    <a href="login.php">🚪 Logout</a>
+                    <a href="logout.php">🚪 Logout</a>
                 </div>
             </div>
         </div>
